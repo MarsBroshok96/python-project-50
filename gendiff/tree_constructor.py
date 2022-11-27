@@ -3,13 +3,12 @@ Module that contain constructor and selectors of 1lvl mutable tree abstraction
 """
 
 
-def construct_1lvl_mutable_tree(file: dict, common_meta=
-        {
-            'diff_status': "   ", 'origin': 1
-            }
-        ):
+def construct_1lvl_mutable_tree(
+        file: dict, common_meta={'diff_status': "   ", 'origin': 1}):
     """
-    Construct tree whrere each node/leaf is list with content in the following order: 0 - node_name, 1 - node_value, 2 - node meta
+    Construct tree whrere each node/leaf is list
+    with content in the following order:
+    0 - node_name, 1 - node_value, 2 - node meta
     """
     tree = []
 
@@ -20,10 +19,12 @@ def construct_1lvl_mutable_tree(file: dict, common_meta=
 
 
 def get_node(tree, node_name, origin=1):
+    ERROR = f"Nothing there with name - '{node_name}' and origin - '{origin}'"
+
     for node in tree:
         if node[0] == node_name and node[2]['origin'] == origin:
             return node
-    raise Exception(f'Nothing there with name - "{node_name}" and origin - "{origin}"')
+    raise Exception(ERROR)
 
 
 def get_value(node: list):
