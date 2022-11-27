@@ -1,16 +1,16 @@
-"""Any info placeholder"""
-import argparse
+"""
+Program returns differences between file1 and file2
+"""
 
+
+from gendiff.cli import parse_args
+from gendiff import engine
 
 def main():
     """Name as main"""
-    DESCRIPTION = "Compares two configuration files and shows a difference."
-    parser = argparse.ArgumentParser(description = DESCRIPTION)
-    parser.add_argument('first_file')
-    parser.add_argument('second_file')
-    parser.add_argument('-f', '--format', help='set format of output')
-    args = parser.parse_args()
-    print(args.first_file)
+    path_file1, path_file2 = parse_args()
+
+    print(engine.generate_diff(path_file1, path_file2))
 
 
 if __name__ =='__main__':
