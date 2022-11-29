@@ -8,3 +8,6 @@
 
 ### Step 3. Package demonstration
 [![asciicast](https://asciinema.org/a/SrQamSU1xLdilf8RwcAlL6223.svg)](https://asciinema.org/a/SrQamSU1xLdilf8RwcAlL6223)
+
+### Step 5. Package demonstration
+[![asciicast](https://asciinema.org/a/tKOqoN4fFRGBfAj23LCs6SdVI.svg)](https://asciinema.org/a/tKOqoN4fFRGBfAj23LCs6SdVI)

@@ -1,7 +1,7 @@
 """Base functions for gendiff"""
 
-import json
 import copy
+from gendiff import parser
 from gendiff.tree_constructor import (construct_1lvl_mutable_tree,
                                       get_name, get_value, get_meta)
 
@@ -16,8 +16,9 @@ NON_CHANGED_INFO = {'diff_status': PREFIX_NTH, 'origin': 2}
 
 def generate_diff(file_path1, file_path2):
 
-    file1 = json.load(open(file_path1))
-    file2 = json.load(open(file_path2))
+    file1 = parser.parse_data(file_path1)
+    file2 = parser.parse_data(file_path2)
+
     items_file1 = set(file1.items())
     items_file2 = set(file2.items())
 
