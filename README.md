@@ -11,3 +11,6 @@
 
 ### Step 5. Package demonstration
 [![asciicast](https://asciinema.org/a/tKOqoN4fFRGBfAj23LCs6SdVI.svg)](https://asciinema.org/a/tKOqoN4fFRGBfAj23LCs6SdVI)
+
+### Step 6. Package demostration
+[![asciicast](https://asciinema.org/a/rqCpdVzOF0LcoUe5v1fDJP1Rg.svg)](https://asciinema.org/a/rqCpdVzOF0LcoUe5v1fDJP1Rg)

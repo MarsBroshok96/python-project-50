@@ -9,9 +9,9 @@ from gendiff import engine
 
 def main():
     """Name as main"""
-    path_file1, path_file2 = parse_args()
+    path_file1, path_file2, format_name = parse_args()
 
-    print(engine.generate_diff(path_file1, path_file2))
+    print(engine.generate_diff(path_file1, path_file2, format_name))
 
 
 if __name__ == '__main__':

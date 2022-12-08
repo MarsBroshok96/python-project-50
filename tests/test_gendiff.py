@@ -4,15 +4,23 @@ from gendiff import engine
 
 json1 = "tests/fixtures/file1.json"
 json2 = "tests/fixtures/file2.json"
-result1 = "tests/fixtures/result1.json"
+h_json1 = "tests/fixtures/hard1.json"
+h_json2 = "tests/fixtures/hard2.json"
+r1 = "tests/fixtures/result1"
+r2 = "tests/fixtures/hard_result_stylish"
 yaml1 = "tests/fixtures/file1.yaml"
 yaml2 = "tests/fixtures/file2.yml"
+h_yaml1 = "tests/fixtures/hard1.yaml"
+h_yaml2 = "tests/fixtures/hard2.yml"
+
 
 @pytest.mark.parametrize(
-        ("file_path1", "file_path2", "expected"),[(json1, json2, result1),
-                                                  (yaml1, yaml2, result1)]
+        ("p1", "p2", "style", "expected"),[(json1, json2,'stylish', r1),
+                                           (yaml1, yaml2, 'stylish', r1),
+                                           (h_json1, h_json2, 'stylish', r2),
+                                           (h_yaml1, h_yaml2, 'stylish', r2)]
         )
 
-def test_generate_diff(file_path1, file_path2, expected):
+def test_generate_diff(p1, p2, style, expected):
     with open(expected, "r") as correct:
-        assert engine.generate_diff(file_path1, file_path2) == correct.read()
+        assert engine.generate_diff(p1, p2, style) == correct.read()
