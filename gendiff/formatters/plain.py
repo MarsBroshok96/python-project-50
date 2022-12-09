@@ -55,6 +55,5 @@ def format(tree):
     Main func to form correct output in plain format.
     """
     result = '\n'.join(form_plain(tree))
-    result += '\n'
 
     return result

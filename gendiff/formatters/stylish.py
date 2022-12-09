@@ -50,4 +50,4 @@ def format(tree):
     """
     Main func to form correct output in stylish format.
     """
-    return f"{{\n{form_stylish(tree)}\n}}\n"
+    return f"{{\n{form_stylish(tree)}\n}}"
