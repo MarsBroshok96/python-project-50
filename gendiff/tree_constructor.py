@@ -80,7 +80,7 @@ def gen_diff(old, new):
         new_value = new[key]
         if isinstance(old[key], dict) and isinstance(new[key], dict):
             diffs.append([key, gen_diff(old_value, new_value),
-                          {'diff_status': ''}
+                          {'diff_status': 'look_inside'}
                           ])
         else:
             if new_value == old_value:
@@ -122,14 +122,14 @@ def format_tree(tree: list):
     return tree
 
 
-def get_node(tree, node_name):
-    ERROR = f"Nothing there with name - '{node_name}'"
+def get_node(tree, name, stat):
+    ERROR = f"Nothing there with name - '{name}' and status - '{stat}'"
 
     for node in tree:
-        if get_name(node) == node_name:
+        if get_name(node) == name and get_meta(node)['diff_status'] == stat:
             return node
         if isinstance(node[1], list):
-            result_in_childs = get_node(get_children(node), node_name)
+            result_in_childs = get_node(get_children(node), name, stat)
             if not isinstance(result_in_childs, Exception):
                 return result_in_childs
 

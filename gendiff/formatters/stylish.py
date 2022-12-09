@@ -7,7 +7,8 @@ def form_stylish(tree, depth=1):
             'added': '+ ',
             'new_value': '+ ',
             'old': '  ',
-            '': '  '
+            '': '  ',
+            'look_inside': '  '
             }
 
     def make_str(node, depth):

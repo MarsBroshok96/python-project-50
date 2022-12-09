@@ -12,5 +12,8 @@
 ### Step 5. Package demonstration
 [![asciicast](https://asciinema.org/a/tKOqoN4fFRGBfAj23LCs6SdVI.svg)](https://asciinema.org/a/tKOqoN4fFRGBfAj23LCs6SdVI)
 
-### Step 6. Package demostration
+### Step 6. Package demonstration ('stylish' format)
 [![asciicast](https://asciinema.org/a/rqCpdVzOF0LcoUe5v1fDJP1Rg.svg)](https://asciinema.org/a/rqCpdVzOF0LcoUe5v1fDJP1Rg)
+
+### Step 7. Package demonstration ('plain' format)
+[![asciicast](https://asciinema.org/a/517eQetiwLOCid6zJ7iAlUC43.svg)](https://asciinema.org/a/517eQetiwLOCid6zJ7iAlUC43)

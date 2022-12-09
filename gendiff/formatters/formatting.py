@@ -1,6 +1,6 @@
-from gendiff.formatters import stylish
+from gendiff.formatters import (stylish, plain)
 
-STYLES = {'stylish': stylish}
+STYLES = {'stylish': stylish, 'plain': plain}
 
 
 def formatting(tree, style):
