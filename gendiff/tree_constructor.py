@@ -1,67 +1,25 @@
 """
-Module that contain constructor and selectors of 1lvl mutable tree abstraction
+Module that contain constructor and selectors of  mutable tree abstraction.
 """
-
-
-def gen_diff_dict(old: dict, new: dict):
-    """
-    Takes two dicts and generate dict with differences in meta:
-    {'diff_status':'nested'/'removed'/'added'}
-    args:
-
-    old: first dict (before change)
-    new: second dict (after change)
-    returns:
-    diffs with differences and diff status in meta
-    """
-
-    diffs = {}
-    old_keys = set(old.keys())
-    new_keys = set(new.keys())
-
-    added_keys = new_keys - old_keys
-    for key in added_keys:
-        diffs[key] = {'diff_status': 'added', 'value': new[key]}
-
-    removed_keys = old_keys - new_keys
-    for key in removed_keys:
-        diffs[key] = {'diff_status': 'removed', 'value': old[key]}
-
-    common_keys = old_keys & new_keys
-    for key in common_keys:
-        old_value = old[key]
-        new_value = new[key]
-        if isinstance(old[key], dict) and isinstance(new[key], dict):
-            diffs[key] = {'diff_status': 'complex',
-                          'value': gen_diff_dict(old_value, new_value)
-                          }
-        else:
-            diffs[key] = {'diff_Status': 'new',
-                          'old_value': old_value, 'new_value': new_value
-                          }
-            if new_value == old_value:
-                diffs[key] = {'diff_status': 'old', 'value': old_value}
-
-    return diffs
 
 
 def make_tree_list(old: dict, new: dict):
     """
-    Takes two dicts and generate dict with differences in meta:
-    {'diff_status':'nested'/'removed'/'added'}
-    args:
+    Take two dicts and construct tree (list of lists) with differences in meta:
+    diff_status may be:
+    'look_inside' - nested node with diffs inside;
+    'removed' - in first dict, but not in second;
+    'added' - in second dict, but not in first;
+    'old' - same in first and second dicts;
+    'old_value' - old value, but was changed in second dict;
+    'new_value' - new value that replaced old value from first dict.
 
-    old: first dict (before change)
-    new: second dict (after change)
-    returns:
-    diffs with differences and diff status in meta
+    Args:
+        old: first python dict,
+        new: second python dict.
+    Returns:
+           diffs: tree (list of lists) with differences.
     """
-
-    return gen_diff(old, new)
-
-
-def gen_diff(old, new):
-
     diffs = []
     old_keys = set(old.keys())
     new_keys = set(new.keys())
@@ -79,7 +37,7 @@ def gen_diff(old, new):
         old_value = old[key]
         new_value = new[key]
         if isinstance(old[key], dict) and isinstance(new[key], dict):
-            diffs.append([key, gen_diff(old_value, new_value),
+            diffs.append([key, make_tree_list(old_value, new_value),
                           {'diff_status': 'look_inside'}
                           ])
         else:
@@ -100,6 +58,16 @@ def gen_diff(old, new):
 
 
 def treat_val(val, diff_status=''):
+    """
+    Treat (with mutation) nested value to tree (list of lists) format
+    with selected 'diff_status' in meta.
+
+    Args:
+        val: nested list.
+        diff_status: meta info for all nested values ('' by default).
+    Returns:
+           val: treated val
+    """
     if isinstance(val, dict):
         formated_val = [[k, treat_val(v)] for k, v in val.items()]
         for sub_val in formated_val:
@@ -108,21 +76,10 @@ def treat_val(val, diff_status=''):
     return val
 
 
-def format_tree(tree: list):
-    for node in tree:
-        if isinstance(node, dict) and 'diff_status' not in node:
-            formated_node = [[k, v] for k, v in node.items()]
-            for sub_node in formated_node:
-                sub_node.append({'diff_status': ''})
-            tree[tree.index(node)] = formated_node
-            format_tree(tree)
-        if isinstance(node, list):
-            format_tree(node)
-
-    return tree
-
-
 def get_node(tree, name, stat):
+    """
+    Base selector to get node(list) by name and diff_status.
+    """
     ERROR = f"Nothing there with name - '{name}' and status - '{stat}'"
 
     for node in tree:
@@ -137,16 +94,28 @@ def get_node(tree, name, stat):
 
 
 def get_children(node: list):
+    """
+    Base selector to get children (list of lists) by node.
+    """
     return node[1] if isinstance(node[1], list) else Exception("Child free")
 
 
 def get_value(node: list):
+    """
+    Base selector to get value by node.
+    """
     return node[1]
 
 
 def get_name(node: list):
+    """
+    Base selector to get name by node.
+    """
     return node[0]
 
 
 def get_meta(node: list):
+    """
+    Base selector to get meta ('diff_status' for example) by node.
+    """
     return node[2]

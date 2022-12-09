@@ -9,8 +9,12 @@ EXTENSIONS = {'json': json.load,
 
 def parse_data(path_to_file):
     """
-    Gets file path, Selects a parser and parse in depend on file extention
-    Returns: python dict
+    Get file path, Select a parser and parse in depend on file extention.
+
+    Args:
+        path_to_file: Dir path in <../../..> format.
+    Returns:
+           Python dict
     """
     file = open(path_to_file)
 

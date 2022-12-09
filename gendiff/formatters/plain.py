@@ -2,6 +2,9 @@ from gendiff.tree_constructor import (get_meta, get_value, get_name, get_node)
 
 
 def treat_value(value):
+    """
+    Return [complex value] if dict value is nested, else return value.
+    """
     if isinstance(value, list):
         return '[complex value]'
     elif value in ('true', 'false', 'null') or isinstance(value, (int, float)):
@@ -11,6 +14,9 @@ def treat_value(value):
 
 
 def form_plain(tree, dir_=None):
+    """
+    Form list of strings with tree (list of lists) of differences.
+    """
     STAT = {'old_value': "Property '{path}' was updated."
                          " From {old_val} to {new_val}",
             'removed': "Property '{path}' was removed",
@@ -45,6 +51,9 @@ def form_plain(tree, dir_=None):
 
 
 def format(tree):
+    """
+    Main func to form correct output in plain format.
+    """
     result = '\n'.join(form_plain(tree))
     result += '\n'
 

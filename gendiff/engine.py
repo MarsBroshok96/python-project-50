@@ -8,6 +8,16 @@ from gendiff.tree_constructor import (make_tree_list,
 
 
 def generate_diff(file_path1, file_path2, format_name='stylish'):
+    """
+    Find difference of two files (changes from first file to the second).
+
+    Args:
+        file_path1: dir path to first,
+        file_path2: dir path to second,
+        format_name: format of output ('stylish' by default)
+    Returns:
+           String with difference in selected format.
+    """
 
     file1 = save_bool_format(parser.parse_data(file_path1))
     file2 = save_bool_format(parser.parse_data(file_path2))
@@ -19,6 +29,16 @@ def generate_diff(file_path1, file_path2, format_name='stylish'):
 
 
 def get_sorted(tree: list):
+    """
+    Sort elements (w/o mutation) by name in all tree levels.
+    If threre are nodes with same name in level,
+    sort by origin (first file priority).
+
+    Args:
+        tree: list, constructed by tree_constructor
+    Returns:
+           tree_c: sorted deep copy of tree
+    """
     tree_c = copy.deepcopy(tree)
     for node in tree_c:
         if isinstance(get_value(node), list):
@@ -33,6 +53,14 @@ def get_sorted(tree: list):
 
 
 def save_bool_format(file: dict):
+    """
+    Change bool-types values to it source (json/yaml) format.
+
+    Args:
+        file: python dict.
+    Returns:
+           file: python dict after change.
+    """
     CHANGE_COLLECTION = {False: 'false', True: 'true', None: 'null'}
 
     for key in file.keys():
@@ -42,16 +70,3 @@ def save_bool_format(file: dict):
             file[key] = CHANGE_COLLECTION[file[key]]
 
     return file
-
-
-def make_output_format(sorted_tree):
-    def make_string_from_node(node):
-        return '{0}{1}: {2}'.format(get_meta(node)["diff_status"],
-                                    get_name(node), get_value(node))
-
-    list_of_strings = [make_string_from_node(node) for node in sorted_tree]
-    output = '{\n'
-    output += '\n'.join(list_of_strings)
-    output += '\n}\n'
-
-    return output
