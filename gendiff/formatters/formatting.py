@@ -1,6 +1,6 @@
-from gendiff.formatters import (stylish, plain)
+from gendiff.formatters import (stylish, plain, json_)
 
-STYLES = {'stylish': stylish, 'plain': plain}
+STYLES = {'stylish': stylish, 'plain': plain, 'json': json_}
 
 
 def formatting(tree, style):

@@ -17,3 +17,6 @@
 
 ### Step 7. Package demonstration ('plain' format)
 [![asciicast](https://asciinema.org/a/517eQetiwLOCid6zJ7iAlUC43.svg)](https://asciinema.org/a/517eQetiwLOCid6zJ7iAlUC43)
+
+### Step 8. Package demonstration ('json' format)
+[![asciicast](https://asciinema.org/a/5g3ZJB0pMZu7UsL1EsCcIAP0m.svg)](https://asciinema.org/a/5g3ZJB0pMZu7UsL1EsCcIAP0m)

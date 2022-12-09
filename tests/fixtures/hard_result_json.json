@@ -1,0 +1,230 @@
+[
+    [
+        "common",
+        [
+            [
+                "follow",
+                "false",
+                {
+                    "diff_status": "added"
+                }
+            ],
+            [
+                "setting1",
+                "Value 1",
+                {
+                    "diff_status": "old"
+                }
+            ],
+            [
+                "setting2",
+                200,
+                {
+                    "diff_status": "removed"
+                }
+            ],
+            [
+                "setting3",
+                "true",
+                {
+                    "diff_status": "old_value"
+                }
+            ],
+            [
+                "setting3",
+                "null",
+                {
+                    "diff_status": "new_value"
+                }
+            ],
+            [
+                "setting4",
+                "blah blah",
+                {
+                    "diff_status": "added"
+                }
+            ],
+            [
+                "setting5",
+                [
+                    [
+                        "key5",
+                        "value5",
+                        {
+                            "diff_status": ""
+                        }
+                    ]
+                ],
+                {
+                    "diff_status": "added"
+                }
+            ],
+            [
+                "setting6",
+                [
+                    [
+                        "doge",
+                        [
+                            [
+                                "wow",
+                                "",
+                                {
+                                    "diff_status": "old_value"
+                                }
+                            ],
+                            [
+                                "wow",
+                                "so much",
+                                {
+                                    "diff_status": "new_value"
+                                }
+                            ]
+                        ],
+                        {
+                            "diff_status": "look_inside"
+                        }
+                    ],
+                    [
+                        "key",
+                        "value",
+                        {
+                            "diff_status": "old"
+                        }
+                    ],
+                    [
+                        "ops",
+                        "vops",
+                        {
+                            "diff_status": "added"
+                        }
+                    ]
+                ],
+                {
+                    "diff_status": "look_inside"
+                }
+            ]
+        ],
+        {
+            "diff_status": "look_inside"
+        }
+    ],
+    [
+        "group1",
+        [
+            [
+                "baz",
+                "bas",
+                {
+                    "diff_status": "old_value"
+                }
+            ],
+            [
+                "baz",
+                "bars",
+                {
+                    "diff_status": "new_value"
+                }
+            ],
+            [
+                "foo",
+                "bar",
+                {
+                    "diff_status": "old"
+                }
+            ],
+            [
+                "nest",
+                [
+                    [
+                        "key",
+                        "value",
+                        {
+                            "diff_status": ""
+                        }
+                    ]
+                ],
+                {
+                    "diff_status": "old_value"
+                }
+            ],
+            [
+                "nest",
+                "str",
+                {
+                    "diff_status": "new_value"
+                }
+            ]
+        ],
+        {
+            "diff_status": "look_inside"
+        }
+    ],
+    [
+        "group2",
+        [
+            [
+                "abc",
+                12345,
+                {
+                    "diff_status": ""
+                }
+            ],
+            [
+                "deep",
+                [
+                    [
+                        "id",
+                        45,
+                        {
+                            "diff_status": ""
+                        }
+                    ]
+                ],
+                {
+                    "diff_status": ""
+                }
+            ]
+        ],
+        {
+            "diff_status": "removed"
+        }
+    ],
+    [
+        "group3",
+        [
+            [
+                "deep",
+                [
+                    [
+                        "id",
+                        [
+                            [
+                                "number",
+                                45,
+                                {
+                                    "diff_status": ""
+                                }
+                            ]
+                        ],
+                        {
+                            "diff_status": ""
+                        }
+                    ]
+                ],
+                {
+                    "diff_status": ""
+                }
+            ],
+            [
+                "fee",
+                100500,
+                {
+                    "diff_status": ""
+                }
+            ]
+        ],
+        {
+            "diff_status": "added"
+        }
+    ]
+]
