@@ -16,17 +16,16 @@ h_yaml1 = "tests/fixtures/hard1.yaml"
 h_yaml2 = "tests/fixtures/hard2.yml"
 
 
-@pytest.mark.parametrize(
-        ("p1", "p2", "style", "expected"),[(json1, json2,'stylish', r1),
-                                           (yaml1, yaml2, 'stylish', r1),
-                                           (h_json1, h_json2, 'stylish', r2),
-                                           (h_yaml1, h_yaml2, 'stylish', r2),
-                                           (h_json1, h_json2, 'plain', r3),
-                                           (h_yaml1, h_yaml2,'plain', r3),
-                                           (h_json1, h_json2, 'json', r4),
-                                           (h_yaml1, h_yaml2, 'json', r4)]
-        )
-
+@pytest.mark.parametrize(("p1", "p2", "style", "expected"),
+                         [(json1, json2, 'stylish', r1),
+                          (yaml1, yaml2, 'stylish', r1),
+                          (h_json1, h_json2, 'stylish', r2),
+                          (h_yaml1, h_yaml2, 'stylish', r2),
+                          (h_json1, h_json2, 'plain', r3),
+                          (h_yaml1, h_yaml2, 'plain', r3),
+                          (h_json1, h_json2, 'json', r4),
+                          (h_yaml1, h_yaml2, 'json', r4)]
+                         )
 def test_generate_diff(p1, p2, style, expected):
     with open(expected, "r") as correct:
         assert engine.generate_diff(p1, p2, style) == correct.read()
