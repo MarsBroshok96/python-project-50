@@ -66,7 +66,7 @@ def save_bool_format(file: dict):
     for key in file.keys():
         if isinstance(file[key], dict):
             file[key] = save_bool_format(file[key])
-        elif file[key] in CHANGE_COLLECTION:
+        elif isinstance(file[key], (bool, type(None))):
             file[key] = CHANGE_COLLECTION[file[key]]
 
     return file
