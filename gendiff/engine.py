@@ -1,6 +1,7 @@
 """Base functions for gendiff"""
 
 import copy
+import os
 from gendiff import parser
 from gendiff.formatters.formatting import formatting
 from gendiff.tree_constructor import (make_tree_list,
@@ -19,13 +20,35 @@ def generate_diff(file_path1, file_path2, format_name='stylish'):
            String with difference in selected format.
     """
 
-    file1 = save_bool_format(parser.parse_data(file_path1))
-    file2 = save_bool_format(parser.parse_data(file_path2))
+    file1 = save_bool_format(parser.parse_data(get_data(file_path1),
+                                               get_format(file_path1)
+                                               ))
+    file2 = save_bool_format(parser.parse_data(get_data(file_path2),
+                                               get_format(file_path2)
+                                               ))
 
     diff_tree = make_tree_list(file1, file2)
     sorted_tree = get_sorted(diff_tree)
 
     return formatting(sorted_tree, format_name)
+
+
+def get_data(file_path):
+    """
+    Get file path, return data from file.
+    """
+    data = open(file_path)
+
+    return data
+
+
+def get_format(file_path):
+    """
+    Get file path, return file extension.
+    """
+    extension = os.path.split(file_path)[1].split('.')[1]
+
+    return extension
 
 
 def get_sorted(tree: list):
@@ -44,8 +67,8 @@ def get_sorted(tree: list):
         if isinstance(get_value(node), list):
             node[node.index(get_value(node))] = get_sorted(get_value(node))
     tree_c = sorted(tree_c,
-                    key=lambda n: (get_name(n),
-                                   get_meta(n)['diff_status'] == 'new_value'
+                    key=lambda _: (get_name(_),
+                                   get_meta(_)['diff_status'] == 'new_value'
                                    )
                     )
 

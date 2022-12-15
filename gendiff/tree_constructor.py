@@ -69,7 +69,7 @@ def treat_val(val, diff_status=''):
            val: treated val
     """
     if isinstance(val, dict):
-        formated_val = [[k, treat_val(v)] for k, v in val.items()]
+        formated_val = [[key, treat_val(val)] for key, val in val.items()]
         for sub_val in formated_val:
             sub_val.append({'diff_status': diff_status})
         return formated_val

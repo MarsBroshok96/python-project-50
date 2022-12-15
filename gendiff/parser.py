@@ -1,27 +1,24 @@
 import json
 import yaml
-import os
 
 EXTENSIONS = {'json': json.load,
               'yaml': yaml.safe_load,
               'yml': yaml.safe_load}
 
 
-def parse_data(path_to_file):
+def parse_data(data, extension):
     """
-    Get file path, Select a parser and parse in depend on file extention.
+    Get file data and extension, Select a parser
+    and parse in depend on file extention.
 
     Args:
-        path_to_file: Dir path in <../../..> format.
+        data: data from file
+        extension: file extension
     Returns:
            Python dict
     """
-    file = open(path_to_file)
-
-    extension = os.path.split(path_to_file)[1].split('.')[1]
-
     if extension in EXTENSIONS:
-        return EXTENSIONS[extension](file)
+        return EXTENSIONS[extension](data)
 
     raise Exception('Invalid extension. Try: {0}'.format
                     (list(EXTENSIONS.keys())))

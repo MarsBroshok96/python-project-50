@@ -27,7 +27,7 @@ def form_plain(tree, dir_=None):
         dir_ = []
     output = []
 
-    for node in [n for n in tree if get_meta(n)['diff_status'] in STAT]:
+    for node in [_ for _ in tree if get_meta(_)['diff_status'] in STAT]:
         stat = get_meta(node)['diff_status']
         dir_.append(get_name(node))
         path = '.'.join(dir_)

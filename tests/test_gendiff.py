@@ -1,31 +1,29 @@
 import pytest
 from gendiff import engine
+import os
 
 
-json1 = "tests/fixtures/file1.json"
-json2 = "tests/fixtures/file2.json"
-h_json1 = "tests/fixtures/hard1.json"
-h_json2 = "tests/fixtures/hard2.json"
-r1 = "tests/fixtures/result1"
-r2 = "tests/fixtures/hard_result_stylish"
-r3 = "tests/fixtures/hard_result_plain"
-r4 = "tests/fixtures/hard_result_json.json"
-yaml1 = "tests/fixtures/file1.yaml"
-yaml2 = "tests/fixtures/file2.yml"
-h_yaml1 = "tests/fixtures/hard1.yaml"
-h_yaml2 = "tests/fixtures/hard2.yml"
+def get_fixture_path(file_name):
+    return os.path.join(os.path.dirname(__file__), 'fixtures', file_name)
 
 
-@pytest.mark.parametrize(("p1", "p2", "style", "expected"),
-                         [(json1, json2, 'stylish', r1),
-                          (yaml1, yaml2, 'stylish', r1),
-                          (h_json1, h_json2, 'stylish', r2),
-                          (h_yaml1, h_yaml2, 'stylish', r2),
-                          (h_json1, h_json2, 'plain', r3),
-                          (h_yaml1, h_yaml2, 'plain', r3),
-                          (h_json1, h_json2, 'json', r4),
-                          (h_yaml1, h_yaml2, 'json', r4)]
+json1 = get_fixture_path('file1.json')
+json2 = get_fixture_path('file2.json')
+res_stylish = get_fixture_path('result_stylish')
+res_plain = get_fixture_path('result_plain')
+res_json = get_fixture_path('result_json.json')
+yaml1 = get_fixture_path('file1.yaml')
+yaml2 = get_fixture_path('file2.yml')
+
+
+@pytest.mark.parametrize(("path1", "path2", "style", "expected"),
+                         [(json1, json2, 'stylish', res_stylish),
+                          (yaml1, yaml2, 'stylish', res_stylish),
+                          (json1, json2, 'plain', res_plain),
+                          (yaml1, yaml2, 'plain', res_plain),
+                          (json1, json2, 'json', res_json),
+                          (yaml1, yaml2, 'json', res_json)]
                          )
-def test_generate_diff(p1, p2, style, expected):
+def test_generate_diff(path1, path2, style, expected):
     with open(expected, "r") as correct:
-        assert engine.generate_diff(p1, p2, style) == correct.read()
+        assert engine.generate_diff(path1, path2, style) == correct.read()
