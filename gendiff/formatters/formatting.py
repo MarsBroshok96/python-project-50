@@ -14,4 +14,8 @@ def formatting(tree, style):
            String with diffs in selected style.
     """
 
+    if style not in STYLES:
+        raise Exception('Invalid style. Try one of: {0}'.format
+                        (list(STYLES.keys())))
+
     return STYLES[style].format(tree)

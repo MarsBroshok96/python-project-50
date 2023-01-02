@@ -1,11 +1,11 @@
-from gendiff.tree_constructor import (get_meta, get_value, get_name, get_node)
+from gendiff.tree_constructor import get_node
 
 
 def treat_value(value):
     """
     Return [complex value] if dict value is nested, else return value.
     """
-    if isinstance(value, list):
+    if isinstance(value, dict):
         return '[complex value]'
     elif value in ('true', 'false', 'null') or isinstance(value, (int, float)):
         return value
@@ -27,23 +27,23 @@ def form_plain(tree, dir_=None):
         dir_ = []
     output = []
 
-    for node in [_ for _ in tree if get_meta(_)['diff_status'] in STAT]:
-        stat = get_meta(node)['diff_status']
-        dir_.append(get_name(node))
+    for node in [_ for _ in tree if _.get('type') in STAT]:
+        stat = node.get('type')
+        dir_.append(node.get('name'))
         path = '.'.join(dir_)
         if stat == 'look_inside':
-            output.extend(form_plain(get_value(node), dir_))
+            output.extend(form_plain(node.get('children'), dir_))
             dir_ = dir_[:-1]
-        elif get_meta(node)['diff_status'] == 'old_value':
-            old_val = treat_value(get_value(node))
-            new_val_node = get_node(tree, get_name(node), 'new_value')
-            new_val = treat_value(get_value(new_val_node))
+        elif node.get('type') == 'old_value':
+            old_val = treat_value(node.get('value'))
+            new_val_node = get_node(tree, node.get('name'), 'new_value')
+            new_val = treat_value(new_val_node.get('value'))
             output.append(STAT[stat].format(path=path,
                                             old_val=old_val,
                                             new_val=new_val
                                             ))
         else:
-            val = treat_value(get_value(node))
+            val = treat_value(node.get('value'))
             output.append(STAT[stat].format(path=path, val=val))
         dir_ = dir_[:-1]
 

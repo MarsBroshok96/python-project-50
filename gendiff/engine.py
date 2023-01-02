@@ -4,8 +4,7 @@ import copy
 import os
 from gendiff import parser
 from gendiff.formatters.formatting import formatting
-from gendiff.tree_constructor import (make_tree_list,
-                                      get_name, get_value, get_meta)
+from gendiff.tree_constructor import (make_tree_dict, get_diff)
 
 
 def generate_diff(file_path1, file_path2, format_name='stylish'):
@@ -27,10 +26,11 @@ def generate_diff(file_path1, file_path2, format_name='stylish'):
                                                get_format(file_path2)
                                                ))
 
-    diff_tree = make_tree_list(file1, file2)
-    sorted_tree = get_sorted(diff_tree)
+    diff_tree = make_tree_dict(get_diff(file1, file2), tree_type='diff')
+    sorted_tree = make_tree_dict(get_sorted(diff_tree.get('children')),
+                                 tree_type='sorted_diff')
 
-    return formatting(sorted_tree, format_name)
+    return formatting(sorted_tree.get('children'), format_name)
 
 
 def get_data(file_path):
@@ -64,13 +64,9 @@ def get_sorted(tree: list):
     """
     tree_c = copy.deepcopy(tree)
     for node in tree_c:
-        if isinstance(get_value(node), list):
-            node[node.index(get_value(node))] = get_sorted(get_value(node))
-    tree_c = sorted(tree_c,
-                    key=lambda _: (get_name(_),
-                                   get_meta(_)['diff_status'] == 'new_value'
-                                   )
-                    )
+        if node.get('children'):
+            node['children'] = get_sorted(node.get('children'))
+    tree_c = sorted(tree_c, key=lambda _: _.get('name'))
 
     return tree_c
 

@@ -1,4 +1,17 @@
-from gendiff.tree_constructor import (get_meta, get_value, get_name)
+def stringify_dict(data, indent: int):
+    """
+    Convert dict to strings with choosen indent.
+    """
+    if not isinstance(data, dict):
+        return data
+    output = ["{"]
+    for key, val in data.items():
+        output.append(f"\n{'  '* indent}{key}: "
+                      f"{stringify_dict(val, indent + 2)}"
+                      )
+    output.append(f"\n{'  ' * (indent - 2)}}}")
+
+    return ''.join(output)
 
 
 def form_stylish(tree, depth=1):
@@ -12,11 +25,10 @@ def form_stylish(tree, depth=1):
            output: Strings with correct indent for stylish format.
     """
     STAT = {'old_value': '- ',
+            'new_value': '+ ',
             'removed': '- ',
             'added': '+ ',
-            'new_value': '+ ',
-            'old': '  ',
-            '': '  ',
+            'unchanged': '  ',
             'look_inside': '  '
             }
 
@@ -24,20 +36,27 @@ def form_stylish(tree, depth=1):
         """
         Convert every node(list) to string with indent depends on depth.
         """
-        def treat_value(node, depth):
+        def treat_node(node, depth):
             """
             Return form_stylish(value) if value is list, else return value.
             """
-            if not isinstance(node, list):
+            if not node.get('children'):
+                if isinstance(node.get('value'), dict):
 
-                return node
+                    return stringify_dict(node.get('value'), depth + 1)
 
-            return f"{{\n{form_stylish(node, depth)}\n{'  '*(depth - 1)}}}"
+                return node.get('value')
+
+            return '{{\n{0}\n{1}}}'.format(form_stylish(node.get('children'),
+                                                        depth
+                                                        ),
+                                           '  ' * (depth - 1)
+                                           )
 
         return '{0}{1}{2}: {3}'.format('  ' * depth,
-                                       STAT[get_meta(node)["diff_status"]],
-                                       get_name(node),
-                                       treat_value(get_value(node), depth + 2)
+                                       STAT[node.get('type')],
+                                       node.get('name'),
+                                       treat_node(node, depth + 2)
                                        )
 
     list_of_str = [make_str(node, depth) for node in tree]
