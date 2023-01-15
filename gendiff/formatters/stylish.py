@@ -1,28 +1,40 @@
-def stringify_dict(data, indent: int):
+
+def stringify(data, depth: int):
     """
-    Convert dict to strings with choosen indent.
+    Convert data to strings with correct indent.
     """
     if not isinstance(data, dict):
-        return data
-    output = ["{"]
+
+        return save_bool_format(data)
+
+    int_indent = build_indent(depth + 1)
+    ext_indent = build_indent(depth)
+    strings = ['{']
+
     for key, val in data.items():
-        output.append(f"\n{'  '* indent}{key}: "
-                      f"{stringify_dict(val, indent + 2)}"
-                      )
-    output.append(f"\n{'  ' * (indent - 2)}}}")
+        strings.append(f"\n{int_indent}  {key}: "
+                       f"{stringify(val, depth + 1)}"
+                       )
+    strings.append(f"\n  {ext_indent}}}")
 
-    return ''.join(output)
+    return ''.join(strings)
 
 
-def form_stylish(tree, depth=1):
+def build_indent(depth):
     """
-    Gen strings with differences and correct indent.
+    Gen correct indent depend on current node`s depth.
+    """
+    return ' ' * (depth * 4 - 2)
 
+
+def format_(tree, depth=0):
+    """
+    Convert tree with differences to str in stylish format and correct indent.
     Args:
-        tree: list of lists with differences,
-        depth: correct indent (1 by default).
+        tree: list of objects with differences,
+        depth: current node`s depth (0 by default).
     Returns:
-           output: Strings with correct indent for stylish format.
+        output: Str in stylish format or exception if diff_tree is incorrect.
     """
     STAT = {'old_value': '- ',
             'new_value': '+ ',
@@ -31,42 +43,58 @@ def form_stylish(tree, depth=1):
             'unchanged': '  ',
             'look_inside': '  '
             }
+    indent = build_indent(depth)
 
-    def make_str(node, depth):
-        """
-        Convert every node(list) to string with indent depends on depth.
-        """
-        def treat_node(node, depth):
-            """
-            Return form_stylish(value) if value is list, else return value.
-            """
-            if not node.get('children'):
-                if isinstance(node.get('value'), dict):
+    if tree['type'] == 'diff':
+        lines = map(lambda child: format_(child, depth + 1),
+                    tree.get('children')
+                    )
+        result = '\n'.join(lines)
+        return f'{{\n{result}\n}}'
 
-                    return stringify_dict(node.get('value'), depth + 1)
+    elif tree['type'] == 'look_inside':
+        lines = map(lambda child: format_(child, depth + 1),
+                    tree.get('children')
+                    )
+        result = '\n'.join(lines)
+        output = (f"{indent}{STAT[tree['type']]}{tree['name']}:"
+                  f" {{\n{result}\n{indent}  }}"
+                  )
 
-                return node.get('value')
+        return output
 
-            return '{{\n{0}\n{1}}}'.format(form_stylish(node.get('children'),
-                                                        depth
-                                                        ),
-                                           '  ' * (depth - 1)
-                                           )
+    elif tree['type'] in ('added', 'removed', 'unchanged'):
+        output = (f"{indent}{STAT[tree['type']]}{tree['name']}:"
+                  f" {stringify(tree.get('value'), depth)}"
+                  )
 
-        return '{0}{1}{2}: {3}'.format('  ' * depth,
-                                       STAT[node.get('type')],
-                                       node.get('name'),
-                                       treat_node(node, depth + 2)
-                                       )
+        return output
 
-    list_of_str = [make_str(node, depth) for node in tree]
-    output = '\n'.join(list_of_str)
+    elif tree['type'] == 'changed':
+        output = (f"{indent}{STAT['old_value']}{tree['name']}:"
+                  f" {stringify(tree.get('old_value'), depth)}\n"
+                  f"{indent}{STAT['new_value']}{tree['name']}:"
+                  f" {stringify(tree.get('new_value'), depth)}"
+                  )
 
-    return output
+        return output
+
+    raise Exception('Ivalid node`s type.')
 
 
-def format(tree):
+def save_bool_format(data):
     """
-    Main func to form correct output in stylish format.
+    Change bool-types values to it source (json/yaml) format.
+
+    Args:
+        file: data in python format.
+    Returns:
+           file: data in json/yaml format.
     """
-    return f"{{\n{form_stylish(tree)}\n}}"
+    CHANGE_COLLECTION = {False: 'false', True: 'true', None: 'null'}
+
+    if data in CHANGE_COLLECTION:
+
+        return CHANGE_COLLECTION[data]
+
+    return data

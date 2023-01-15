@@ -18,4 +18,4 @@ def formatting(tree, style):
         raise Exception('Invalid style. Try one of: {0}'.format
                         (list(STYLES.keys())))
 
-    return STYLES[style].format(tree)
+    return STYLES[style].format_(tree)

@@ -1,9 +1,9 @@
 import json
 
 
-def format(tree: list):
+def format_(tree: list):
     """
     Convert tree with diffs to string in json format.
     """
-    result = json.dumps(tree, indent=4)
+    result = json.dumps(tree['children'], indent=4)
     return result

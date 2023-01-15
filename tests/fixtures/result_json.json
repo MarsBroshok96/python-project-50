@@ -6,7 +6,7 @@
             {
                 "type": "added",
                 "name": "follow",
-                "value": "false"
+                "value": false
             },
             {
                 "type": "unchanged",
@@ -19,14 +19,10 @@
                 "value": 200
             },
             {
-                "type": "old_value",
+                "type": "changed",
                 "name": "setting3",
-                "value": "true"
-            },
-            {
-                "type": "new_value",
-                "name": "setting3",
-                "value": "null"
+                "old_value": true,
+                "new_value": null
             },
             {
                 "type": "added",
@@ -49,14 +45,10 @@
                         "name": "doge",
                         "children": [
                             {
-                                "type": "old_value",
+                                "type": "changed",
                                 "name": "wow",
-                                "value": ""
-                            },
-                            {
-                                "type": "new_value",
-                                "name": "wow",
-                                "value": "so much"
+                                "old_value": "",
+                                "new_value": "so much"
                             }
                         ]
                     },
@@ -79,14 +71,10 @@
         "name": "group1",
         "children": [
             {
-                "type": "old_value",
+                "type": "changed",
                 "name": "baz",
-                "value": "bas"
-            },
-            {
-                "type": "new_value",
-                "name": "baz",
-                "value": "bars"
+                "old_value": "bas",
+                "new_value": "bars"
             },
             {
                 "type": "unchanged",
@@ -94,16 +82,12 @@
                 "value": "bar"
             },
             {
-                "type": "old_value",
+                "type": "changed",
                 "name": "nest",
-                "value": {
+                "old_value": {
                     "key": "value"
-                }
-            },
-            {
-                "type": "new_value",
-                "name": "nest",
-                "value": "str"
+                },
+                "new_value": "str"
             }
         ]
     },
