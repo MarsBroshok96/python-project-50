@@ -1,3 +1,5 @@
+import json
+
 
 def stringify(data, depth: int):
     """
@@ -91,10 +93,10 @@ def save_bool_format(data):
     Returns:
            file: data in json/yaml format.
     """
-    CHANGE_COLLECTION = {False: 'false', True: 'true', None: 'null'}
+    CHANGE_COLLECTION = {False, True, None}
 
     if data in CHANGE_COLLECTION:
 
-        return CHANGE_COLLECTION[data]
+        return json.dumps(data)
 
     return data
